@@ -1,6 +1,9 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+
+import time
+
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
@@ -54,7 +57,24 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        if len(self.storage) >= self.capacity:
+            self.resize
+
+        arraySpot = self._hash(key) % self.capacity
+
+        # while newKey in self.storage and time.time() < 5:
+        #     newKey = self._hash(newKey)
+
+        if self.storage[arraySpot] is not None:
+            print(f'There is already something in spot {key} -> {arraySpot}')
+            # arraySpot = self._hash(f'{arraySpot}') % self.capacity
+            # print(f'{arraySpot}')
+
+        self.storage[arraySpot] = value
+        
+
+
 
 
 
@@ -66,6 +86,12 @@ class HashTable:
 
         Fill this in.
         '''
+        arraySpot = self._hash(key) % self.capacity
+
+        if self.storage[arraySpot] is None:
+            print(f'nothing is in spot {key} -> {arraySpot}')
+        else:
+            self.storage[arraySpot] = None
         pass
 
 
@@ -76,8 +102,13 @@ class HashTable:
         Returns None if the key is not found.
 
         Fill this in.
+        
         '''
-        pass
+
+        arraySpot = self._hash(key) % self.capacity
+        print(self.storage[arraySpot])
+        return self.storage[arraySpot]
+
 
 
     def resize(self):
@@ -87,6 +118,12 @@ class HashTable:
 
         Fill this in.
         '''
+
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
+        for i in range(len(self.storage)):
+            new_storage[i] = self.storage[i]
+        self.storage = new_storage
         pass
 
 
@@ -118,3 +155,19 @@ if __name__ == "__main__":
     print(ht.retrieve("line_3"))
 
     print("")
+
+
+ht = HashTable(8)
+
+ht.insert("key-0", "val-0")
+ht.insert("key-1", "val-1")
+ht.insert("key-2", "val-2")
+ht.insert("key-3", "val-3")
+ht.insert("key-4", "val-4")
+ht.insert("key-5", "val-5")
+ht.insert("key-6", "val-6")
+ht.insert("key-7", "val-7")
+ht.insert("key-8", "val-8")
+ht.insert("key-9", "val-9")
+
+print(ht.storage)
